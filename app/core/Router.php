@@ -46,12 +46,32 @@ class Router
       $controller_name = "\app\controllers\\" . $this->params['controller'] . 'Controller';
 
       if (class_exists($controller_name)) {
-        echo 'yes';
+        $controller = new $controller_name($this->params);
+        $action_name = $this->params['action'] . 'Action'; // 'indexAction'
+        if (method_exists($controller, $action_name)) {
+          $controller->$action_name();
+        } else {
+          if (PROD) {
+            include 'app/views/404/index.php';
+          } else {
+            echo 'Метод ' . $action_name . ' не найден';
+          }
+        }
       } else {
-        echo 'no';
+        if (PROD) {
+          include 'app/views/404/index.php';
+        } else {
+          echo 'Класс ' . $controller_name . ' не найден';
+        }
+      }
+    } else {
+      if (PROD) {
+        include 'app/views/404/index.php';
+      } else {
+        echo '404 Page not found';
       }
     }
   }
-
-
 }
+
+
