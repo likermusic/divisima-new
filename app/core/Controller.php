@@ -1,7 +1,7 @@
 <?
 namespace app\core;
 
-class Controller
+abstract class Controller
 {
   protected $route;
   protected $view;
