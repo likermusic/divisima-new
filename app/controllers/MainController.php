@@ -1,15 +1,13 @@
 <?
 namespace app\controllers;
 
-class MainController
-{
-  public function __construct($params)
-  {
-    debug($params);
-  }
+use app\core\Controller;
 
+class MainController extends Controller
+{
   public function indexAction()
   {
-    echo __METHOD__;
+    // echo 'indexAction';
   }
+
 }
