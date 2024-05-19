@@ -12,14 +12,12 @@ class View
   {
     $this->route = $route;
     $this->view = 'app/views/' . $route['controller'] . '/index.php';
-    $this->render();
     // include $this->view;
   }
 
-  private function render($data = null)
+  public function render($data = null)
   {
     $layout = 'app/views/layouts/' . $this->layout . '.php';
-
 
     if (file_exists($this->view)) {
       ob_start();

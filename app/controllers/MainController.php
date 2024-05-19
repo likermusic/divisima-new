@@ -5,9 +5,11 @@ use app\core\Controller;
 
 class MainController extends Controller
 {
+
   public function indexAction()
   {
-    // echo 'indexAction';
+    $banners = $this->model->get_banners();
+    $this->view->render($banners);
   }
 
 }
