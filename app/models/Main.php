@@ -1,10 +1,16 @@
 <?
 namespace app\models;
 
-class Main
+use app\core\Model;
+
+class Main extends Model
 {
-  public function __construct()
+  public function get_banners()
   {
-    // echo 'Main Model';
+    return $this->db->custom_query("SELECT url_name FROM assets WHERE type_id=1");
+  }
+  public function get_features()
+  {
+    return $this->db->custom_query("SELECT url_name FROM assets WHERE type_id=2");
   }
 }
