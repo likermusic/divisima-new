@@ -9,6 +9,7 @@ abstract class Controller
 
   public function __construct($route)
   {
+    session_start();
     $this->route = $route;
     $this->include_model($route);
     $this->view = new View($route);
