@@ -1,23 +1,32 @@
+// Переключение категорий и получение товаров по этой категории
+document
+  .querySelector(".product-filter-menu")
+  .addEventListener("click", (e) => {
+    e.preventDefault();
+    if (e.target.matches("a")) {
+      document
+        .querySelector(".product-filter-menu a.active")
+        .classList.remove("active");
+      e.target.classList.add("active");
+
+      const categoryId = e.target.dataset.id;
+      categoryProductsHandler(categoryId);
+    }
+  });
+
+// Подгрузка товаров на главной
 document.querySelector(".load-more").addEventListener("click", (e) => {
   e.target.innerHTML = `Loading...<div class="spinner-border spinner-border-sm ml-2" role="status">
         <span class="visually-hidden"></span>
       </div>`;
-
   const start = document.querySelector(".products").children.length;
-  fetch("productsHandler", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-      credentials: "same-origin",
-      "X-Requested-With": "XMLHttpRequest",
-    },
-    body: start,
-  })
-    .then((resp) => resp.json())
-    .then((data) => {
-      let output = "";
-      data.forEach((product) => {
-        output += `
+  productsHandler(start, e.target);
+});
+
+function renderProducts(data) {
+  let output = "";
+  data.forEach((product) => {
+    output += `
         <div class="col-lg-3 col-sm-6">
           <div class="product-item" data-id="${
             product.id
@@ -42,6 +51,7 @@ document.querySelector(".load-more").addEventListener("click", (e) => {
                   <s>$${product.price.replace(".", ",")}</s>
                   <br>
                   $${(product.price - (product.price / 100) * product.discount)
+                    .toFixed(2)
                     .toString()
                     .replace(".", ",")}
                   `
@@ -53,11 +63,25 @@ document.querySelector(".load-more").addEventListener("click", (e) => {
           </div>
         </div>
         `;
-      });
+  });
 
-      document
-        .querySelector(".products")
-        .insertAdjacentHTML("beforeend", output);
+  document.querySelector(".products").insertAdjacentHTML("beforeend", output);
+}
+
+// Fetch queries
+function productsHandler(start, target) {
+  fetch("productsHandler", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      credentials: "same-origin",
+      "X-Requested-With": "XMLHttpRequest",
+    },
+    body: start,
+  })
+    .then((resp) => resp.json())
+    .then((data) => {
+      renderProducts(data);
     })
     .catch((err) => {
       if (PROD) {
@@ -66,5 +90,40 @@ document.querySelector(".load-more").addEventListener("click", (e) => {
         console.error("Ошибка подгрузки товаров: " + err);
       }
     })
-    .finally(() => (e.target.textContent = "LOAD MORE"));
-});
+    .finally(() => (target.textContent = "LOAD MORE"));
+}
+
+function categoryProductsHandler(categoryId) {
+  fetch("categoryProductsHandler", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      credentials: "same-origin",
+      "X-Requested-With": "XMLHttpRequest",
+    },
+    body: categoryId,
+  })
+    .then((resp) => resp.json())
+    .then((data) => {
+      if (!data) {
+        throw new Error(
+          "Ошибка получения товаров по категории. Попробуйте позже"
+        );
+      } else {
+        document.querySelector(".products").innerHTML = "";
+        if (data.length === 0) {
+          document.querySelector(".products").innerHTML =
+            "<h3>Товары закончились :(</h3>";
+        } else {
+          renderProducts(data);
+        }
+      }
+    })
+    .catch((err) => {
+      if (PROD) {
+        alert(err);
+      } else {
+        console.error(err);
+      }
+    });
+}

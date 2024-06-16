@@ -41,4 +41,21 @@ class MainController extends Controller
     }
   }
 
+  public function categoryProductsHandlerAction()
+  {
+    if ($this->isFetch()) {
+      $category_id = file_get_contents('php://input');
+
+      if (is_numeric($category_id) and $category_id == 0) {
+        $products = $this->model->get_products($this->start, $this->limit);
+        echo json_encode($products);
+      } elseif (is_numeric($category_id)) {
+        $products = $this->model->get_category_products($category_id, $this->start, $this->limit);
+        echo json_encode($products);
+      } else {
+        echo json_encode(false);
+      }
+    }
+  }
+
 }

@@ -10,4 +10,10 @@ return [
     'controller' => 'main',
     'action' => 'productsHandler'
   ],
+  PATH . "categoryProductsHandler" => [
+    'controller' => 'main',
+    'action' => 'categoryProductsHandler'
+  ],
+
+
 ];
