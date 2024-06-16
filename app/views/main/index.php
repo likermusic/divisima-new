@@ -143,7 +143,7 @@
     </ul>
     <div class="row products">
       <? foreach ($data->products as $product): ?>
-        <div class="col-lg-3 col-sm-6">
+        <div class="col-lg-3 col-sm-6 product-wrapper">
           <div class="product-item" data-id="<?= $product->id ?>" data-category="<?= $product->category_id ?>">
             <div class="pi-pic">
               <? if ($product->discount > 0): ?>

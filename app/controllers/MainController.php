@@ -44,6 +44,7 @@ class MainController extends Controller
   public function categoryProductsHandlerAction()
   {
     if ($this->isFetch()) {
+      //Здесь теперь принимаем объект ->start   ->category_id
       $category_id = file_get_contents('php://input');
 
       if (is_numeric($category_id) and $category_id == 0) {

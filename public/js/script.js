@@ -19,15 +19,19 @@ document.querySelector(".load-more").addEventListener("click", (e) => {
   e.target.innerHTML = `Loading...<div class="spinner-border spinner-border-sm ml-2" role="status">
         <span class="visually-hidden"></span>
       </div>`;
-  const start = document.querySelector(".products").children.length;
-  productsHandler(start, e.target);
+  const start = document.querySelectorAll(".products .product-wrapper").length;
+
+  const categoryId = document.querySelector(".product-filter-menu a.active")
+    .dataset.id;
+  // productsHandler(start, e.target);
+  categoryProductsHandler(categoryId, start);
 });
 
 function renderProducts(data) {
   let output = "";
   data.forEach((product) => {
     output += `
-        <div class="col-lg-3 col-sm-6">
+        <div class="col-lg-3 col-sm-6 product-wrapper">
           <div class="product-item" data-id="${
             product.id
           }" data-category="<?= ${product.category_id}">
@@ -93,7 +97,9 @@ function productsHandler(start, target) {
     .finally(() => (target.textContent = "LOAD MORE"));
 }
 
-function categoryProductsHandler(categoryId) {
+function categoryProductsHandler(categoryId, start) {
+  let body = JSON.stringify(start ? { categoryId, start } : { categoryId });
+
   fetch("categoryProductsHandler", {
     method: "POST",
     headers: {
@@ -101,7 +107,7 @@ function categoryProductsHandler(categoryId) {
       credentials: "same-origin",
       "X-Requested-With": "XMLHttpRequest",
     },
-    body: categoryId,
+    body: body,
   })
     .then((resp) => resp.json())
     .then((data) => {
