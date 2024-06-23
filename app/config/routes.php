@@ -6,10 +6,6 @@ return [
   ],
 
   // Fetch routes
-  PATH . "productsHandler" => [
-    'controller' => 'main',
-    'action' => 'productsHandler'
-  ],
   PATH . "categoryProductsHandler" => [
     'controller' => 'main',
     'action' => 'categoryProductsHandler'

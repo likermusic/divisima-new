@@ -171,7 +171,7 @@
         </div>
       <? endforeach; ?>
     </div>
-    <div class="text-center pt-5">
+    <div class="text-center pt-5 load-more-wrapper">
       <button class="site-btn sb-line sb-dark load-more">LOAD MORE</button>
     </div>
   </div>

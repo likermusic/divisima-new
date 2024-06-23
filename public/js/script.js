@@ -24,7 +24,7 @@ document.querySelector(".load-more").addEventListener("click", (e) => {
   const categoryId = document.querySelector(".product-filter-menu a.active")
     .dataset.id;
   // productsHandler(start, e.target);
-  categoryProductsHandler(categoryId, start);
+  categoryProductsHandler(categoryId, start, e.target);
 });
 
 function renderProducts(data) {
@@ -73,32 +73,12 @@ function renderProducts(data) {
 }
 
 // Fetch queries
-function productsHandler(start, target) {
-  fetch("productsHandler", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
-      credentials: "same-origin",
-      "X-Requested-With": "XMLHttpRequest",
-    },
-    body: start,
-  })
-    .then((resp) => resp.json())
-    .then((data) => {
-      renderProducts(data);
-    })
-    .catch((err) => {
-      if (PROD) {
-        alert("Ошибка. Попробуйте позже");
-      } else {
-        console.error("Ошибка подгрузки товаров: " + err);
-      }
-    })
-    .finally(() => (target.textContent = "LOAD MORE"));
-}
-
-function categoryProductsHandler(categoryId, start) {
-  let body = JSON.stringify(start ? { categoryId, start } : { categoryId });
+function categoryProductsHandler(categoryId, start, loadMore) {
+  let body = JSON.stringify(
+    start
+      ? { categoryId: Number(categoryId), start: Number(start) }
+      : { categoryId: Number(categoryId) }
+  );
 
   fetch("categoryProductsHandler", {
     method: "POST",
@@ -109,17 +89,28 @@ function categoryProductsHandler(categoryId, start) {
     },
     body: body,
   })
-    .then((resp) => resp.json())
+    .then((resp) => {
+      if (!resp.ok) {
+        throw new Error("Ошибка запроса к серверу. Попробуйте позже");
+      }
+      return resp.json();
+    })
     .then((data) => {
       if (!data) {
         throw new Error(
           "Ошибка получения товаров по категории. Попробуйте позже"
         );
       } else {
-        document.querySelector(".products").innerHTML = "";
-        if (data.length === 0) {
-          document.querySelector(".products").innerHTML =
-            "<h3>Товары закончились :(</h3>";
+        if (!start) {
+          // проверяет Load more... ИЛИ Перекл кат
+          document.querySelector(".products").innerHTML = "";
+          if (data.length === 0) {
+            document.querySelector(".products").innerHTML =
+              "<h3>Товары закончились :(</h3>";
+            // document.querySelector(".load-more").remove();
+          } else {
+            renderProducts(data);
+          }
         } else {
           renderProducts(data);
         }
@@ -130,6 +121,11 @@ function categoryProductsHandler(categoryId, start) {
         alert(err);
       } else {
         console.error(err);
+      }
+    })
+    .finally(() => {
+      if (loadMore) {
+        loadMore.textContent = "LOAD MORE";
       }
     });
 }
