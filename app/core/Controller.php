@@ -9,6 +9,7 @@ abstract class Controller
 
   public function __construct($route)
   {
+    session_start();
     $this->route = $route;
     $this->include_model($route);
     $this->view = new View($route);
@@ -29,5 +30,10 @@ abstract class Controller
         echo 'Модель ' . $model_name . ' не существует';
       }
     }
+  }
+
+  public function isFetch()
+  {
+    return isset($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH'] === 'XMLHttpRequest';
   }
 }
