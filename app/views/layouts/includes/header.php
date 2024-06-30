@@ -59,7 +59,7 @@
             <div class="user-panel">
               <div class="up-item">
                 <i class="flaticon-profile"></i>
-                <a href="#">Sign</a> In or <a href="#">Create Account</a>
+                <a href="/signin">Sign In</a> or <a href="/signup">Create Account</a>
               </div>
               <div class="up-item">
                 <div class="shopping-card">

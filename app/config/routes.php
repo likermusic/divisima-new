@@ -4,11 +4,16 @@ return [
     'controller' => 'main',
     'action' => 'index'
   ],
+
   PATH . "/search" => [
     'controller' => 'search',
     'action' => 'index'
   ],
 
+  PATH . "/signup" => [
+    'controller' => 'signup',
+    'action' => 'index'
+  ],
 
   // Fetch routes
   PATH . "categoryProductsHandler" => [
