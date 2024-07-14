@@ -11,7 +11,8 @@
 <script src="<?= WWW ?>/js/jquery.zoom.min.js"></script>
 <script src="<?= WWW ?>/js/jquery-ui.min.js"></script>
 <script src="<?= WWW ?>/js/main.js"></script>
-<script src="<?= WWW ?>/js/script.js"></script>
+<script src="<?= WWW ?>/js/account.js"></script>
+
 
 
 </body>
