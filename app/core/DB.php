@@ -38,22 +38,34 @@ class DB
   public function fetchAll($table)
   {
     $stmt = $this->db->prepare("SELECT * FROM {$table}");
-    $stmt->execute();
-    return $stmt->fetchAll(\PDO::FETCH_OBJ);
+    if ($stmt->execute()) {
+      return $stmt->fetchAll(\PDO::FETCH_OBJ);
+    } else {
+      $errorInfo = $stmt->errorInfo();
+      return ['error' => true, 'error_msg' => $errorInfo[2]];
+    }
   }
 
-  public function fetchOne($id, $table)
+  public function fetchOne($value, $table, $param = 'id')
   {
-    $stmt = $this->db->prepare("SELECT * FROM {$table} WHERE id=?");
-    $stmt->execute([$id]);
-    return $stmt->fetch(\PDO::FETCH_OBJ);
+    $stmt = $this->db->prepare("SELECT * FROM {$table} WHERE $param=?");
+    if ($stmt->execute([$value])) {
+      return $stmt->fetch(\PDO::FETCH_OBJ);
+    } else {
+      $errorInfo = $stmt->errorInfo();
+      return ['error' => true, 'error_msg' => $errorInfo[2]];
+    }
   }
 
   public function custom_query($query, $params = null)
   {
     $stmt = $this->db->prepare($query);
-    $stmt->execute($params);
-    return $stmt->fetchAll(\PDO::FETCH_OBJ);
+    if ($stmt->execute($params)) {
+      return $stmt->fetchAll(\PDO::FETCH_OBJ); // ['user'=>'sadsd]
+    } else {
+      $errorInfo = $stmt->errorInfo();
+      return (object) ['error' => true, 'error_msg' => $errorInfo[2]]; // ['error'=>true, 'msg'=>'hduhfdu']
+    }
   }
 
 }

@@ -13,6 +13,14 @@ abstract class Controller
     $this->route = $route;
     $this->include_model($route);
     $this->view = new View($route);
+    $this->logout();
+  }
+
+  public function logout()
+  {
+    if (isset($_GET['exit']) and $_GET['exit'] == true) {
+      unset($_SESSION['user']);
+    }
   }
 
   private function include_model($route)
@@ -21,14 +29,19 @@ abstract class Controller
     if (class_exists($model_name)) {
       $this->model = new $model_name;
     } else {
-      if (PROD) {
-        echo '
-        <script> 
-          alert("Не удалось подключиться к БД");
-        </script>';
-      } else {
-        echo 'Модель ' . $model_name . ' не существует';
-      }
+      $this->print_error("Не удалось подключиться к БД", "Модель {$model_name} не существует");
+    }
+  }
+
+  public function print_error($alert_msg, $echo_msg)
+  {
+    if (PROD) {
+      echo "
+      <script> 
+        alert({$alert_msg});
+      </script>";
+    } else {
+      echo $echo_msg;
     }
   }
 

@@ -45,13 +45,13 @@
         <div class="row">
           <div class="col-lg-2 text-center text-lg-left">
             <!-- logo -->
-            <a href="./index.html" class="site-logo">
+            <a href="/" class="site-logo">
               <img src="<?= WWW ?>/img/logo.png" alt="">
             </a>
           </div>
           <div class="col-xl-6 col-lg-5">
-            <form class="header-search-form">
-              <input type="text" placeholder="Search on divisima ....">
+            <form class="header-search-form" method="get" action="/search">
+              <input type="text" name="product" placeholder="Search on divisima ....">
               <button><i class="flaticon-search"></i></button>
             </form>
           </div>
@@ -59,15 +59,21 @@
             <div class="user-panel">
               <div class="up-item">
                 <i class="flaticon-profile"></i>
-                <a href="#">Sign</a> In or <a href="#">Create Account</a>
+                <? if (isset($_SESSION['user']) and !empty($_SESSION['user'])): ?>
+                  <?= $_SESSION['user']; ?>
+                <? else: ?>
+                  <a href="/signin">Sign In</a> or <a href="/signup">Create Account</a>
+                <? endif; ?>
               </div>
               <div class="up-item">
-                <div class="shopping-card">
+                <a href="#" class="shopping-card">
                   <i class="flaticon-bag"></i>
                   <span>0</span>
-                </div>
-                <a href="#">Shopping Cart</a>
+                </a>
               </div>
+              <? if (isset($_SESSION['user']) and !empty($_SESSION['user'])): ?>
+                <a href="?exit=true" class="btn btn-outline-dark btn-sm ml-4 mb-2">Logout</a>
+              <? endif ?>
             </div>
           </div>
         </div>
