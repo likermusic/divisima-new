@@ -13,6 +13,14 @@ abstract class Controller
     $this->route = $route;
     $this->include_model($route);
     $this->view = new View($route);
+    $this->logout();
+  }
+
+  public function logout()
+  {
+    if (isset($_GET['exit']) and $_GET['exit'] == true) {
+      unset($_SESSION['user']);
+    }
   }
 
   private function include_model($route)

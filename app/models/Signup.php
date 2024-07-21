@@ -13,7 +13,8 @@ class Signup extends Model
 
   public function add_user($login, $password)
   {
-    return $this->db->custom_query("INSERT INTO {$this->table} (login, password) VALUES (?,?)", [$login, $password]);
+    $password_hash = password_hash($password, PASSWORD_DEFAULT);
+    return $this->db->custom_query("INSERT INTO {$this->table} (login, password) VALUES (?,?)", [$login, $password_hash]);
   }
   // public function search_products($search)
   // {

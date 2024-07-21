@@ -15,6 +15,11 @@ return [
     'action' => 'index'
   ],
 
+  PATH . "/signin" => [
+    'controller' => 'signin',
+    'action' => 'index'
+  ],
+
   // Fetch routes
   PATH . "categoryProductsHandler" => [
     'controller' => 'main',

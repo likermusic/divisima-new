@@ -3,7 +3,7 @@ namespace app\controllers;
 
 use app\core\Controller;
 
-class SignupController extends Controller
+class SigninController extends Controller
 {
   public function indexAction()
   {
@@ -12,27 +12,28 @@ class SignupController extends Controller
       $is_valid_password = $this->validate_form($_POST['password'], "/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$/");
 
       if ($is_valid_login and $is_valid_password) {
-        $is_user = $this->model->check_is_user($_POST['login']);
+        $is_user = $this->model->check_is_user($_POST['login']); // null, {user=>max}
+
         if ($is_user->error) {
           $this->print_error("Произошла ошибка. Попробуйте позже", $is_user->error_msg);
         } elseif (empty($is_user)) {
-          $res = $this->model->add_user($_POST['login'], $_POST['password']);
-          if ($res->error) {
-            $this->print_error("Не удалось зарегистрироваться. Попробуйте позже", $res->error_msg);
-          } else {
-            // Редирект пользователя на ту страницу с которой он пришел
-            $_SESSION['user'] = $_POST['login'];
-            header("location: /");
-          }
+          $signin_fail = "Пользователь с логином {$_POST['login']} не найден";
         } else {
-          // вернуть попап что юезр уже существует
-          $signup_fail = "Ошибка! Пользователь с логином {$_POST['login']} уже существует";
+          $is_password_valid = $this->model->check_user_password($is_user->id, $_POST['password']);
+          if ($is_password_valid) {
+            $_SESSION['user'] = $_POST['login'];
+            // Редирект пользователя на ту страницу с которой он пришел
+            header("location: /");
+          } else {
+            $signin_fail = "Пароль неверный";
+          }
+
         }
       }
     }
 
     // debug($signup_fail);
-    $data = compact('signup_fail');
+    $data = compact('signin_fail');
     $this->view->layout = 'account';
     $this->view->render((object) $data);
   }

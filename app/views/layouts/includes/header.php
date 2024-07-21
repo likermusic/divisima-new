@@ -59,15 +59,21 @@
             <div class="user-panel">
               <div class="up-item">
                 <i class="flaticon-profile"></i>
-                <a href="/signin">Sign In</a> or <a href="/signup">Create Account</a>
+                <? if (isset($_SESSION['user']) and !empty($_SESSION['user'])): ?>
+                  <?= $_SESSION['user']; ?>
+                <? else: ?>
+                  <a href="/signin">Sign In</a> or <a href="/signup">Create Account</a>
+                <? endif; ?>
               </div>
               <div class="up-item">
-                <div class="shopping-card">
+                <a href="#" class="shopping-card">
                   <i class="flaticon-bag"></i>
                   <span>0</span>
-                </div>
-                <a href="#">Shopping Cart</a>
+                </a>
               </div>
+              <? if (isset($_SESSION['user']) and !empty($_SESSION['user'])): ?>
+                <a href="?exit=true" class="btn btn-outline-dark btn-sm ml-4 mb-2">Logout</a>
+              <? endif ?>
             </div>
           </div>
         </div>

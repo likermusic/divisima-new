@@ -10,7 +10,7 @@ function validateForm(input, regex) {
   }
 }
 
-document.querySelector("#form-signup").addEventListener("submit", (e) => {
+function sendAccountForm(e) {
   e.preventDefault();
   const loginInput = document.querySelector("#login");
   const passwordInput = document.querySelector("#password");
@@ -24,6 +24,13 @@ document.querySelector("#form-signup").addEventListener("submit", (e) => {
   );
 
   if (isLoginValid && isPasswordValid) {
-    document.querySelector("#form-signup").submit();
+    this.submit();
   }
-});
+}
+
+document
+  .querySelector("#form-signup")
+  ?.addEventListener("submit", sendAccountForm);
+document
+  .querySelector("#form-signin")
+  ?.addEventListener("submit", sendAccountForm);
