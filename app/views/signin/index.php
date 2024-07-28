@@ -9,7 +9,8 @@
       </div>
     </div>
     <div class="input-group has-validation">
-      <input class="form-control rounded-pill" id="password" type="text" name="password" placeholder="Your password">
+      <input class="form-control rounded-pill" id="password" type="password" name="password"
+        placeholder="Your password">
       <div class="invalid-feedback">
         Password should be more than 6 symbols and include a-Z A-Z 0-9
       </div>

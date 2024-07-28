@@ -34,4 +34,15 @@ class Main extends Model
     return $this->db->custom_query("SELECT * FROM products WHERE hot>={$hot}");
   }
 
+  public function add_to_favourites($login, $product_id)
+  {
+    $user = $this->db->fetchOne($login, 'users', 'login');
+    return $this->db->custom_query("INSERT INTO favourites (product_id, user_id) VALUES (?,?)", [$product_id, $user->id]);
+  }
+
+  public function delete_from_favourites($login, $product_id)
+  {
+    $user = $this->db->fetchOne($login, 'users', 'login');
+    return $this->db->custom_query("DELETE FROM favourites WHERE user_id=? AND product_id=?", [$user->id, $product_id]);
+  }
 }

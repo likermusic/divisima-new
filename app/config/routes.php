@@ -26,5 +26,15 @@ return [
     'action' => 'categoryProductsHandler'
   ],
 
+  PATH . "addToFavourites" => [
+    'controller' => 'main',
+    'action' => 'addToFavouritesHandler'
+  ],
+
+  PATH . "deleteFromFavourites" => [
+    'controller' => 'main',
+    'action' => 'deleteFromFavouritesHandler'
+  ]
+
 
 ];

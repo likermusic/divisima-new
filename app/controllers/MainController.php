@@ -51,6 +51,56 @@ class MainController extends Controller
       } else {
         echo json_encode(false);
       }
+    } else {
+      if (PROD) {
+        include 'app/views/404/index.php';
+      } else {
+        echo '404 Page not found';
+      }
+    }
+  }
+
+  public function addToFavouritesHandlerAction()
+  {
+    if ($this->isFetch()) {
+      $json = file_get_contents('php://input');
+      $data = json_decode($json);
+      $product_id = $data->productId;
+      $res = $this->model->add_to_favourites($_SESSION['user'], $product_id);
+      if ($res->error) {
+        $this->print_error("Ошибка добавления в избранное. Попробуйте позже", $res->error_msg);
+        echo json_encode(false);
+      } else {
+        echo json_encode(true);
+      }
+    } else {
+      if (PROD) {
+        include 'app/views/404/index.php';
+      } else {
+        echo '404 Page not found';
+      }
+    }
+  }
+
+  public function deleteFromFavouritesHandlerAction()
+  {
+    if ($this->isFetch()) {
+      $json = file_get_contents('php://input');
+      $data = json_decode($json);
+      $product_id = $data->productId;
+      $res = $this->model->delete_from_favourites($_SESSION['user'], $product_id);
+      if ($res->error) {
+        $this->print_error("Ошибка удаления из избранного. Попробуйте позже", $res->error_msg);
+        echo json_encode(false);
+      } else {
+        echo json_encode(true);
+      }
+    } else {
+      if (PROD) {
+        include 'app/views/404/index.php';
+      } else {
+        echo '404 Page not found';
+      }
     }
   }
 

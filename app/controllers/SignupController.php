@@ -20,9 +20,10 @@ class SignupController extends Controller
           if ($res->error) {
             $this->print_error("Не удалось зарегистрироваться. Попробуйте позже", $res->error_msg);
           } else {
+            debug($res);
             // Редирект пользователя на ту страницу с которой он пришел
             $_SESSION['user'] = $_POST['login'];
-            header("location: /");
+            // header("location: /");
           }
         } else {
           // вернуть попап что юезр уже существует

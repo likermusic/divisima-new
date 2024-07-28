@@ -27,6 +27,40 @@ document.querySelector(".load-more").addEventListener("click", (e) => {
   categoryProductsHandler(categoryId, start, e.target);
 });
 
+document
+  .querySelector(".product-filter-section .products")
+  .addEventListener("click", checkProductInFavourites);
+
+document
+  .querySelector(".top-letest-product-section .product-slider")
+  .addEventListener("click", checkProductInFavourites);
+
+function checkProductInFavourites(e) {
+  e.preventDefault();
+  if (e.target.matches(".wishlist-btn, .wishlist-btn *")) {
+    const productId = e.target.closest(".product-item")?.dataset.id;
+    const body = JSON.stringify({ productId });
+
+    if (e.target.matches(".wishlist-btn")) {
+      const isFavourite = e.target
+        .querySelector("i")
+        .classList.contains("favourite");
+      if (!isFavourite) {
+        addToFavouritesHandler(e.target, body);
+      } else {
+        deleteFromFavouritesHandler(e.target, body);
+      }
+    } else {
+      const isFavourite = e.target.classList.contains("favourite");
+      if (!isFavourite) {
+        addToFavouritesHandler(e.target, body);
+      } else {
+        deleteFromFavouritesHandler(e.target, body);
+      }
+    }
+  }
+}
+
 function renderProducts(data) {
   let output = "";
   data.forEach((product) => {
@@ -73,6 +107,80 @@ function renderProducts(data) {
 }
 
 // Fetch queries
+function addToFavouritesHandler(elem, body) {
+  fetch("addToFavourites", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      credentials: "same-origin",
+      "X-Requested-With": "XMLHttpRequest",
+    },
+    body: body,
+  })
+    .then((resp) => {
+      if (!resp.ok) {
+        throw new Error("Ошибка запроса к серверу. Попробуйте позже");
+      }
+      return resp.json();
+    })
+    .then((data) => {
+      if (!data) {
+        throw new Error("Ошибка добавления в избранное. Попробуйте позже");
+      } else {
+        // УСПЕХ
+        if (elem.matches(".wishlist-btn")) {
+          elem.querySelector("i").classList.add("favourite");
+        } else {
+          elem.classList.add("favourite");
+        }
+      }
+    })
+    .catch((err) => {
+      if (PROD) {
+        alert(err);
+      } else {
+        console.error(err);
+      }
+    });
+}
+
+function deleteFromFavouritesHandler(elem, body) {
+  fetch("deleteFromFavourites", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      credentials: "same-origin",
+      "X-Requested-With": "XMLHttpRequest",
+    },
+    body: body,
+  })
+    .then((resp) => {
+      if (!resp.ok) {
+        throw new Error("Ошибка запроса к серверу. Попробуйте позже");
+      }
+      return resp.json();
+    })
+    .then((data) => {
+      if (!data) {
+        throw new Error("Ошибка удаления из избранного. Попробуйте позже");
+      } else {
+        // УСПЕХ
+        if (elem.matches(".wishlist-btn")) {
+          elem.querySelector("i").classList.remove("favourite");
+        } else {
+          elem.classList.remove("favourite");
+        }
+      }
+    })
+    .catch((err) => {
+      if (PROD) {
+        alert(err);
+      } else {
+        console.error(err);
+      }
+    });
+}
+
 function categoryProductsHandler(categoryId, start, loadMore) {
   let body = JSON.stringify(
     start
