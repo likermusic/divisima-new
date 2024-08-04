@@ -20,6 +20,12 @@ return [
     'action' => 'index'
   ],
 
+
+  PATH . "/cart" => [
+    'controller' => 'cart',
+    'action' => 'index'
+  ],
+
   // Fetch routes
   PATH . "categoryProductsHandler" => [
     'controller' => 'main',
