@@ -17,11 +17,20 @@ class MainController extends Controller
     $products = $this->model->get_products($this->start, $this->limit);
     $hot = 4;
     $hot_products = $this->model->get_hot_products($hot);
+    if (!empty($_SESSION['user'])) {
+      $favourites_array = $this->model->get_favourite_products($_SESSION['user']); // [] [1,2,3,4]
+      if (!empty($favourites_array)) {
+        $favourites = array_map(function ($item) {
+          return $item->product_id;
+        }, $favourites_array);
+      }
+    }
+
 
     $banners = $this->add_object_texts($banners_urls, $banners_texts);
     $features = $this->add_object_texts($features_urls, $features_texts);
 
-    $data = compact('banners', 'features', 'categories', 'products', 'hot_products');
+    $data = compact('banners', 'features', 'categories', 'products', 'hot_products', 'favourites');
     $this->view->render((object) $data);
   }
 

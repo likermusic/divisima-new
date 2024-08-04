@@ -65,7 +65,11 @@
             <img src="<?= WWW ?>/img/product/<?= $product->image ?>" alt="product">
             <div class="pi-links">
               <a href="#" class="add-card"><i class="flaticon-bag"></i><span>ADD TO CART</span></a>
-              <a href="#" class="wishlist-btn"><i class="flaticon-heart"></i></a>
+              <? if (isset($data->favourites) and !empty($data->favourites) and in_array($product->id, $data->favourites)): ?>
+                <a href="#" class="wishlist-btn"><i class="flaticon-heart favourite"></i></a>
+              <? else: ?>
+                <a href="#" class="wishlist-btn"><i class="flaticon-heart"></i></a>
+              <? endif; ?>
             </div>
           </div>
           <div class="pi-text">
@@ -102,6 +106,7 @@
         <li><a href="" data-id="<?= $categorie->id ?>"><?= $categorie->name ?></a></li>
       <? endforeach; ?>
     </ul>
+
     <div class="row products">
       <? foreach ($data->products as $product): ?>
         <div class="col-lg-3 col-sm-6 product-wrapper">
@@ -113,7 +118,11 @@
               <img src="<?= WWW ?>/img/product/<?= $product->image ?>" alt="product">
               <div class="pi-links">
                 <a href="#" class="add-card"><i class="flaticon-bag"></i><span>ADD TO CART</span></a>
-                <a href="#" class="wishlist-btn"><i class="flaticon-heart"></i></a>
+                <? if (isset($data->favourites) and !empty($data->favourites) and in_array($product->id, $data->favourites)): ?>
+                  <a href="#" class="wishlist-btn"><i class="flaticon-heart favourite"></i></a>
+                <? else: ?>
+                  <a href="#" class="wishlist-btn"><i class="flaticon-heart"></i></a>
+                <? endif; ?>
               </div>
             </div>
             <div class="pi-text">
