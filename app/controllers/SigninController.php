@@ -21,6 +21,7 @@ class SigninController extends Controller
         } else {
           $is_password_valid = $this->model->check_user_password($is_user->id, $_POST['password']);
           if ($is_password_valid) {
+
             $_SESSION['user'] = $_POST['login'];
             // Редирект пользователя на ту страницу с которой он пришел
             header("location: /");

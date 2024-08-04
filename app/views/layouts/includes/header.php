@@ -66,7 +66,7 @@
                 <? endif; ?>
               </div>
               <div class="up-item">
-                <a href="#" class="shopping-card">
+                <a href="/cart" class="shopping-card">
                   <i class="flaticon-bag"></i>
                   <span>0</span>
                 </a>

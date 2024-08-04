@@ -15,6 +15,7 @@ class Signin extends Model
   {
     //login password
     // asd7J asd7J
+    //jkjk6Kl jkjk6Kl
     $password_hash = $this->db->custom_query("SELECT password FROM {$this->table} WHERE id={$id}");
     if ($password_hash[0]->password) {
       return password_verify($password, $password_hash[0]->password);

@@ -65,7 +65,11 @@
             <img src="<?= WWW ?>/img/product/<?= $product->image ?>" alt="product">
             <div class="pi-links">
               <a href="#" class="add-card"><i class="flaticon-bag"></i><span>ADD TO CART</span></a>
-              <a href="#" class="wishlist-btn"><i class="flaticon-heart"></i></a>
+              <? if (isset($data->favourites) and !empty($data->favourites) and in_array($product->id, $data->favourites)): ?>
+                <a href="#" class="wishlist-btn"><i class="flaticon-heart favourite"></i></a>
+              <? else: ?>
+                <a href="#" class="wishlist-btn"><i class="flaticon-heart"></i></a>
+              <? endif; ?>
             </div>
           </div>
           <div class="pi-text">
@@ -102,6 +106,7 @@
         <li><a href="" data-id="<?= $categorie->id ?>"><?= $categorie->name ?></a></li>
       <? endforeach; ?>
     </ul>
+
     <div class="row products">
       <? foreach ($data->products as $product): ?>
         <div class="col-lg-3 col-sm-6 product-wrapper">
@@ -113,7 +118,11 @@
               <img src="<?= WWW ?>/img/product/<?= $product->image ?>" alt="product">
               <div class="pi-links">
                 <a href="#" class="add-card"><i class="flaticon-bag"></i><span>ADD TO CART</span></a>
-                <a href="#" class="wishlist-btn"><i class="flaticon-heart"></i></a>
+                <? if (isset($data->favourites) and !empty($data->favourites) and in_array($product->id, $data->favourites)): ?>
+                  <a href="#" class="wishlist-btn"><i class="flaticon-heart favourite"></i></a>
+                <? else: ?>
+                  <a href="#" class="wishlist-btn"><i class="flaticon-heart"></i></a>
+                <? endif; ?>
               </div>
             </div>
             <div class="pi-text">
@@ -138,3 +147,23 @@
   </div>
 </section>
 <!-- Product filter section end -->
+
+
+<!-- FavouritesErrorModal -->
+<div class="modal fade" id="favouritesErrorModal" tabindex="-1" aria-labelledby="favouritesErrorModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title fs-5" id="favouritesErrorModalLabel">Authorization</h3>
+      </div>
+      <div class="modal-body">
+        You need to login your account
+      </div>
+      <div class="modal-footer justify-content-start">
+        <a href="/signin" type="button" class="btn btn-primary" data-bs-dismiss="modal">Login</a>
+        <a href="/signup" type="button" class="btn btn-outline-secondary">Register</a>
+      </div>
+    </div>
+  </div>
+</div>

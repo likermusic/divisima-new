@@ -20,11 +20,27 @@ return [
     'action' => 'index'
   ],
 
+
+  PATH . "/cart" => [
+    'controller' => 'cart',
+    'action' => 'index'
+  ],
+
   // Fetch routes
   PATH . "categoryProductsHandler" => [
     'controller' => 'main',
     'action' => 'categoryProductsHandler'
   ],
+
+  PATH . "addToFavourites" => [
+    'controller' => 'main',
+    'action' => 'addToFavouritesHandler'
+  ],
+
+  PATH . "deleteFromFavourites" => [
+    'controller' => 'main',
+    'action' => 'deleteFromFavouritesHandler'
+  ]
 
 
 ];

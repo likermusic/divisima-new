@@ -100,7 +100,7 @@ ol {
 }
 
 .spad {
-  padding-top: 105px;
+  padding-top: 15px;
   padding-bottom: 105px;
 }
 
@@ -983,6 +983,7 @@ ol {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
 /* ----------------
   Banner section
 ---------------------*/
@@ -2208,6 +2209,9 @@ ol {
   height: 100%;
 }
 
+.favourite {
+  color: red !important;
+}
 /* ----------------
   Responsive
 ---------------------*/
