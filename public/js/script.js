@@ -126,6 +126,11 @@ function addToFavouritesHandler(elem, body) {
     .then((data) => {
       if (!data) {
         throw new Error("Ошибка добавления в избранное. Попробуйте позже");
+      } else if (data === 401) {
+        const favouritesErrorModal = new bootstrap.Modal(
+          document.getElementById("favouritesErrorModal")
+        );
+        favouritesErrorModal.show();
       } else {
         // УСПЕХ
         if (elem.matches(".wishlist-btn")) {

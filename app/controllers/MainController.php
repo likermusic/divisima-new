@@ -66,6 +66,12 @@ class MainController extends Controller
       $json = file_get_contents('php://input');
       $data = json_decode($json);
       $product_id = $data->productId;
+
+      if (empty($_SESSION['user'])) {
+        echo json_encode(401);
+        return;
+      }
+
       $res = $this->model->add_to_favourites($_SESSION['user'], $product_id);
       if ($res->error) {
         $this->print_error("Ошибка добавления в избранное. Попробуйте позже", $res->error_msg);

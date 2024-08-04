@@ -138,3 +138,23 @@
   </div>
 </section>
 <!-- Product filter section end -->
+
+
+<!-- FavouritesErrorModal -->
+<div class="modal fade" id="favouritesErrorModal" tabindex="-1" aria-labelledby="favouritesErrorModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title fs-5" id="favouritesErrorModalLabel">Authorization</h3>
+      </div>
+      <div class="modal-body">
+        You need to login your account
+      </div>
+      <div class="modal-footer justify-content-start">
+        <a href="/signin" type="button" class="btn btn-primary" data-bs-dismiss="modal">Login</a>
+        <a href="/signup" type="button" class="btn btn-outline-secondary">Register</a>
+      </div>
+    </div>
+  </div>
+</div>
