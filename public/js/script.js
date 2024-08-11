@@ -35,6 +35,76 @@ document
   .querySelector(".top-letest-product-section .product-slider")
   .addEventListener("click", checkProductInFavourites);
 
+document
+  .querySelector(".top-letest-product-section .product-slider")
+  .addEventListener("click", addToCart);
+
+document
+  .querySelector(".product-filter-section .products")
+  .addEventListener("click", addToCart);
+
+function addToCart(e) {
+  e.preventDefault();
+  if (e.target.matches(".add-card, .add-card *")) {
+    const productId = e.target.closest(".product-item")?.dataset.id;
+
+    const body = JSON.stringify({ productId });
+    addToCartHandler(e.target, body);
+  }
+}
+
+function addToCartHandler(elem, body) {
+  fetch("addToCart", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/x-www-form-urlencoded",
+      credentials: "same-origin",
+      "X-Requested-With": "XMLHttpRequest",
+    },
+    body: body,
+  })
+    .then((resp) => {
+      if (!resp.ok) {
+        throw new Error("Ошибка запроса к серверу. Попробуйте позже");
+      }
+      return resp.json();
+    })
+    .then((data) => {
+      if (data === false) {
+        throw new Error("Ошибка добавления в корзину. Попробуйте позже");
+      } else {
+        // УСПЕХ
+        const alert = `
+            <div class="alert alert-add-product text-white bg-dark" style="opacity: 0.8!important" role="alert">
+              Товар добавлен в корзину!
+            </div>
+            `;
+        let alertElem;
+        if (elem.matches(".add-card")) {
+          elem.insertAdjacentHTML("beforebegin", alert);
+          alertElem = elem.previousElementSibling;
+        } else {
+          elem.closest(".add-card").insertAdjacentHTML("beforebegin", alert);
+          alertElem = elem.closest(".add-card").previousElementSibling;
+        }
+
+        setTimeout(() => {
+          alertElem.remove();
+        }, 1500);
+
+        document.querySelector(".shopping-card span").textContent =
+          Number(document.querySelector(".shopping-card span").textContent) + 1;
+      }
+    })
+    .catch((err) => {
+      if (PROD) {
+        alert(err);
+      } else {
+        console.error(err);
+      }
+    });
+}
+
 function checkProductInFavourites(e) {
   e.preventDefault();
   if (e.target.matches(".wishlist-btn, .wishlist-btn *")) {

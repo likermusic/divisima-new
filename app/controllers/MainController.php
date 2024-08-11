@@ -119,4 +119,33 @@ class MainController extends Controller
     }
   }
 
+  public function addToCartHandlerAction()
+  {
+    if ($this->isFetch()) {
+      $json = file_get_contents('php://input');
+      $data = json_decode($json);
+      $product_id = $data->productId;
+
+      if (empty($_SESSION['user'])) {
+        //Если юзер не авторизован то сохраняем в куку
+      } else {
+        //Если юзер авторизован то сохраняем в БД
+        $res = $this->model->add_to_cart($_SESSION['user'], $product_id);
+        if ($res->error) {
+          $this->print_error("Ошибка добавления в корзину. Попробуйте позже", $res->error_msg);
+          echo json_encode(false);
+        } else {
+          echo json_encode(true);
+        }
+      }
+
+    } else {
+      if (PROD) {
+        include 'app/views/404/index.php';
+      } else {
+        echo '404 Page not found';
+      }
+    }
+  }
+
 }

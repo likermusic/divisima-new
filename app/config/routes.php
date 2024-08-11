@@ -40,7 +40,12 @@ return [
   PATH . "deleteFromFavourites" => [
     'controller' => 'main',
     'action' => 'deleteFromFavouritesHandler'
-  ]
+  ],
+
+  PATH . "addToCart" => [
+    'controller' => 'main',
+    'action' => 'addToCartHandler'
+  ],
 
 
 ];

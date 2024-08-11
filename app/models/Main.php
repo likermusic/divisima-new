@@ -55,4 +55,19 @@ class Main extends Model
     $user = $this->db->fetchOne($login, 'users', 'login');
     return $this->db->custom_query("DELETE FROM favourites WHERE user_id=? AND product_id=?", [$user->id, $product_id]);
   }
+
+  public function add_to_cart($login, $product_id)
+  {
+    $user = $this->db->fetchOne($login, 'users', 'login');
+    $is_in_cart = $this->db->custom_query("SELECT product_id,qty FROM carts WHERE user_id=? AND product_id=?", [$user->id, $product_id]);
+
+    if (empty($is_in_cart)) {
+      // У юзера в корзине еще нет такого товара
+      return $this->db->custom_query("INSERT INTO carts (user_id, product_id, qty) VALUES (?,?,?)", [$user->id, $product_id, 1]);
+    } else {
+      // У юзера в корзине уже есть такой товар
+      $updated_qty = $is_in_cart[0]->qty + 1;
+      return $this->db->custom_query("UPDATE carts SET qty={$updated_qty} WHERE user_id=? AND product_id=?", [$user->id, $product_id]);
+    }
+  }
 }
