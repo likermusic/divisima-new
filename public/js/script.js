@@ -80,10 +80,15 @@ function addToCartHandler(elem, body) {
             </div>
             `;
         let alertElem;
+        // && !elem.parentElement.querySelector(".alert-add-product")
         if (elem.matches(".add-card")) {
+          // console.log(elem.parentElement.querySelector(".alert-add-product"));
+          // elem.parentElement.querySelector(".alert-add-product")?.remove();
           elem.insertAdjacentHTML("beforebegin", alert);
           alertElem = elem.previousElementSibling;
         } else {
+          // console.log(elem.parentElement.querySelector(".alert-add-product"));
+          // elem.parentElement.querySelector(".alert-add-product")?.remove();
           elem.closest(".add-card").insertAdjacentHTML("beforebegin", alert);
           alertElem = elem.closest(".add-card").previousElementSibling;
         }
