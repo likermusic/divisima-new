@@ -9,8 +9,12 @@ class CartController extends Controller
   {
     // $banners_urls = $this->model->get_banners();
     $banners = 23;
+    if (empty($_SESSION['user'])) {
 
-    $data = compact('banners');
+    } else {
+      $cart = $this->model->get_cart($_SESSION['user']);
+    }
+    $data = compact('cart');
     $this->view->render((object) $data);
   }
 

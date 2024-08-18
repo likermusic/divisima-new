@@ -24,13 +24,15 @@ class MainController extends Controller
           return $item->product_id;
         }, $favourites_array);
       }
+
+      $cart_qty = $this->model->get_cart_qty($_SESSION['user']);
     }
 
 
     $banners = $this->add_object_texts($banners_urls, $banners_texts);
     $features = $this->add_object_texts($features_urls, $features_texts);
 
-    $data = compact('banners', 'features', 'categories', 'products', 'hot_products', 'favourites');
+    $data = compact('banners', 'features', 'categories', 'products', 'hot_products', 'favourites', 'cart_qty');
     $this->view->render((object) $data);
   }
 

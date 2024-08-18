@@ -68,7 +68,7 @@
               <div class="up-item">
                 <a href="/cart" class="shopping-card">
                   <i class="flaticon-bag"></i>
-                  <span>0</span>
+                  <span><?= !$data->cart_qty ? 0 : $data->cart_qty ?></span>
                 </a>
               </div>
               <? if (isset($_SESSION['user']) and !empty($_SESSION['user'])): ?>

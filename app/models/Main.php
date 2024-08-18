@@ -70,4 +70,11 @@ class Main extends Model
       return $this->db->custom_query("UPDATE carts SET qty={$updated_qty} WHERE user_id=? AND product_id=?", [$user->id, $product_id]);
     }
   }
+
+  public function get_cart_qty($login)
+  {
+    $user = $this->db->fetchOne($login, 'users', 'login');
+    $data = $this->db->custom_query("SELECT SUM(qty) AS qty FROM carts WHERE user_id={$user->id}");
+    return $data[0]->qty;
+  }
 }
