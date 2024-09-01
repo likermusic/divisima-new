@@ -5,6 +5,7 @@ use app\core\Model;
 
 class Main extends Model
 {
+
   public function get_banners()
   {
     return $this->db->custom_query("SELECT url_name FROM assets WHERE type_id=1");
@@ -69,12 +70,5 @@ class Main extends Model
       $updated_qty = $is_in_cart[0]->qty + 1;
       return $this->db->custom_query("UPDATE carts SET qty={$updated_qty} WHERE user_id=? AND product_id=?", [$user->id, $product_id]);
     }
-  }
-
-  public function get_cart_qty($login)
-  {
-    $user = $this->db->fetchOne($login, 'users', 'login');
-    $data = $this->db->custom_query("SELECT SUM(qty) AS qty FROM carts WHERE user_id={$user->id}");
-    return $data[0]->qty;
   }
 }
