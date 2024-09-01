@@ -67,7 +67,7 @@ function addToCartHandler(elem, body) {
       if (!resp.ok) {
         throw new Error("Ошибка запроса к серверу. Попробуйте позже");
       }
-      return resp.json();
+      return resp.text();
     })
     .then((data) => {
       if (data === false) {

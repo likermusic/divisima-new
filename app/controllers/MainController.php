@@ -18,19 +18,22 @@ class MainController extends Controller
     $hot = 4;
     $hot_products = $this->model->get_hot_products($hot);
     if (!empty($_SESSION['user'])) {
-      $favourites_array = $this->model->get_favourite_products($_SESSION['user']); // [] [1,2,3,4]
+      $favourites_array = $this->model->get_favourite_products($_SESSION['user']); // [] [1,2,3,4]-
       if (!empty($favourites_array)) {
         $favourites = array_map(function ($item) {
           return $item->product_id;
         }, $favourites_array);
       }
+
+      $cart_qty = $this->model->get_cart_qty($_SESSION['user']);
+
     }
 
 
     $banners = $this->add_object_texts($banners_urls, $banners_texts);
     $features = $this->add_object_texts($features_urls, $features_texts);
 
-    $data = compact('banners', 'features', 'categories', 'products', 'hot_products', 'favourites');
+    $data = compact('banners', 'features', 'categories', 'products', 'hot_products', 'favourites', 'cart_qty');
     $this->view->render((object) $data);
   }
 
@@ -128,6 +131,24 @@ class MainController extends Controller
 
       if (empty($_SESSION['user'])) {
         //Если юзер не авторизован то сохраняем в куку
+        if (isset($_COOKIE['cart'])) {
+          $cart = unserialize($_COOKIE['cart']);  // [ [],[],[] ]
+          $updated_cart = $cart;
+          $is_product = false;
+          foreach ($cart as $ind => $product) {
+            if ($product['product_id'] === $product_id) {
+              $updated_cart[$ind]['qty'] += 1;
+              $is_product = true;
+            }
+          }
+          if ($is_product === false) {
+            $updated_cart[] = ['product_id' => $product_id, 'qty' => 1];
+          }
+          setcookie('cart', serialize($updated_cart), time() + 3600);
+        } else {
+          $cart[] = ['product_id' => $product_id, 'qty' => 1];
+          setcookie('cart', serialize($cart), time() + 3600);
+        }
       } else {
         //Если юзер авторизован то сохраняем в БД
         $res = $this->model->add_to_cart($_SESSION['user'], $product_id);
@@ -149,3 +170,4 @@ class MainController extends Controller
   }
 
 }
+

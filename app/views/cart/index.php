@@ -10,7 +10,6 @@
 </div>
 <!-- Page info end -->
 
-
 <!-- cart section end -->
 <section class="cart-section spad">
   <div class="container">
@@ -28,68 +27,37 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td class="product-col">
-                    <img src="img/cart/1.jpg" alt="">
-                    <div class="pc-title">
-                      <h4>Animal Print Dress</h4>
-                      <p>$45.90</p>
-                    </div>
-                  </td>
-                  <td class="quy-col">
-                    <div class="quantity">
-                      <div class="pro-qty">
-                        <input type="text" value="1">
-                      </div>
-                    </div>
-                  </td>
-                  <td class="total-col">
-                    <h4>$45.90</h4>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="product-col">
-                    <img src="img/cart/2.jpg" alt="">
-                    <div class="pc-title">
-                      <h4>Ruffle Pink Top</h4>
-                      <p>$45.90</p>
-                    </div>
-                  </td>
-                  <td class="quy-col">
-                    <div class="quantity">
-                      <div class="pro-qty">
-                        <input type="text" value="1">
-                      </div>
-                    </div>
-                  </td>
-                  <td class="total-col">
-                    <h4>$45.90</h4>
-                  </td>
-                </tr>
-                <tr>
-                  <td class="product-col">
-                    <img src="img/cart/3.jpg" alt="">
-                    <div class="pc-title">
-                      <h4>Skinny Jeans</h4>
-                      <p>$45.90</p>
-                    </div>
-                  </td>
-                  <td class="quy-col">
-                    <div class="quantity">
-                      <div class="pro-qty">
-                        <input type="text" value="1">
-                      </div>
-                    </div>
-                  </td>
-                  <td class="total-col">
-                    <h4>$45.90</h4>
-                  </td>
-                </tr>
+                <? if (empty($data->cart)): ?>
+                  <h4>Корзина пуста</h4>
+                <? else: ?>
+                  <? foreach ($data->cart as $product): ?>
+                    <? $total += $product->price * $product->qty ?>
+                    <tr>
+                      <td class="product-col">
+                        <img src="<?= WWW ?>/img/product/<?= $product->image ?>" alt="product">
+                        <div class="pc-title">
+                          <h4><?= $product->name ?></h4>
+                          <p>$<?= $product->price ?></p>
+                        </div>
+                      </td>
+                      <td class="quy-col">
+                        <div class="quantity">
+                          <div class="pro-qty">
+                            <input type="text" value="<?= $product->qty ?>">
+                          </div>
+                        </div>
+                      </td>
+                      <td class="total-col">
+                        <h4>$<span id="total-product"><?= $total ?></span></h4>
+                      </td>
+                    </tr>
+                  <? endforeach; ?>
+                <? endif; ?>
               </tbody>
             </table>
           </div>
           <div class="total-cost">
-            <h6>Total <span>$99.90</span></h6>
+            <h6>Total <span>$ <span class="ml-0" id="total-cost"><?= $total ?></span></span></h6>
           </div>
         </div>
       </div>

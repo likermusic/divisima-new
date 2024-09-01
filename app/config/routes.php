@@ -25,6 +25,18 @@ return [
     'controller' => 'cart',
     'action' => 'index'
   ],
+  PATH . "/admin" => [
+    'controller' => 'admin',
+    'action' => 'index'
+  ],
+  PATH . "/admin/users" => [
+    'controller' => 'admin',
+    'action' => 'users'
+  ],
+  PATH . "/admin/products" => [
+    'controller' => 'admin',
+    'action' => 'products'
+  ],
 
   // Fetch routes
   PATH . "categoryProductsHandler" => [

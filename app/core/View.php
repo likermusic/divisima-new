@@ -5,7 +5,7 @@ class View
 {
 
   private $route;
-  private $view;
+  public $view;
 
   public $layout = 'default';
   public function __construct($route)
@@ -18,7 +18,6 @@ class View
   public function render($data = null)
   {
     $layout = 'app/views/layouts/' . $this->layout . '.php';
-
     if (file_exists($this->view)) {
       ob_start();
       include $this->view;
